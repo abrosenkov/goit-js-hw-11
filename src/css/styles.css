@@ -1,11 +1,5 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
+
 /* Common styles */
 @import url('./reset.css');
-@import url('./pixabay-api.css');
-@import url('./render-functions.css');
+@import url('./basic.css');
 @import url('./loader.css');

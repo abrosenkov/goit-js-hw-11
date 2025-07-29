@@ -16,9 +16,9 @@ const searchInput = document.querySelector('input[name="search-text"]');
 
 export async function Onsubmit(event) {
   event.preventDefault();
+  clearGallery();
   showLoader();
   searchBtn.disabled = true;
-  clearGallery();
 
   const userQuery = searchInput.value.trim();
   if (userQuery === '') {
@@ -34,30 +34,42 @@ export async function Onsubmit(event) {
     return;
   }
 
-  const queryData = await getImagesByQuery(userQuery);
-  if (!queryData.hits.length) {
+  try {
+    const queryData = await getImagesByQuery(userQuery);
+    if (!queryData.hits.length) {
+      iziToast.error({
+        title: '',
+        color: 'red',
+        messageSize: '18',
+        icon: false,
+        maxWidth: '432px',
+        minHeight: '88px',
+        progressBar: false,
+        message:
+          '❌ Sorry, there are no images matching your search query. Please try again!',
+        position: 'topRight',
+      });
+
+      return;
+    }
+    createGallery(queryData.hits);
+  } catch {
     iziToast.error({
       title: '',
       color: 'red',
       messageSize: '18',
       icon: false,
       progressBar: false,
-      message:
-        '❌ Sorry, there are no images matching your search query. Please try again!',
+      message: '❌ Sorry, network Error',
       position: 'topRight',
     });
+  } finally {
     setTimeout(() => {
       form.reset();
-    }, 1500);
+    }, 1000);
     searchBtn.disabled = false;
     hideLoader();
-    return;
   }
-
-  createGallery(queryData.hits);
-  form.reset();
-  searchBtn.disabled = false;
-  hideLoader();
 }
 
 form.addEventListener('submit', Onsubmit);
