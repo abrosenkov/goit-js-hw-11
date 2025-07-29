@@ -14,13 +14,11 @@ const searchBtn = document.querySelector('button[type="submit"]');
 
 const searchInput = document.querySelector('input[name="search-text"]');
 
-export async function Onsubmit(event) {
+export async function OnSubmit(event) {
   event.preventDefault();
-  clearGallery();
-  showLoader();
-  searchBtn.disabled = true;
 
   const userQuery = searchInput.value.trim();
+
   if (userQuery === '') {
     iziToast.error({
       title: '',
@@ -32,6 +30,10 @@ export async function Onsubmit(event) {
       progressBar: false,
     });
     return;
+  } else {
+    clearGallery();
+    showLoader();
+    searchBtn.disabled = true;
   }
 
   try {
@@ -72,4 +74,4 @@ export async function Onsubmit(event) {
   }
 }
 
-form.addEventListener('submit', Onsubmit);
+form.addEventListener('submit', OnSubmit);
