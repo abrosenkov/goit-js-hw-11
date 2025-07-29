@@ -29,6 +29,9 @@ export async function OnSubmit(event) {
       icon: false,
       progressBar: false,
     });
+
+    form.reset();
+
     return;
   } else {
     clearGallery();
